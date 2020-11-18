@@ -27,16 +27,24 @@ should include, at least, one table and one plot.
 The analysis of the data described in the HTML file should contain the following
 sections:
 
-  * Abstract: Summary of the question and the findings (max. 200 words).
-  * Introduction: Description of the question and the data employed to answer it.
+  * **Abstract:** Summary of the question and the findings (max. 200 words).
+  * **Introduction:** Description of the question and the data employed to answer it.
     Description of any steps taken, if any, previous to this R Markdown document,
     to prepare the data that is being analyzed.
-  * Results: R code intertwined with text, descriping the analysis steps and the
+  * **Results:** R code intertwined with text, descriping the analysis steps and the
     display items with the results, which should consist at least of one table and
     one plot.
-  * Conclusions: summary of the findings, limitations of the study, ways in which
+  * **Conclusions:** summary of the findings, limitations of the study, ways in which
     this type of study could be improved in the future.
-  * References: bibliographic references.
+  * **References:** bibliographic references.
+
+## Methodology
+
+The analysis of the data should be carried out at least using R, but you can also
+use shell or Python scripts to transform or prepare the data for the analysis with
+R. If those prior steps using shell or Python scripts are included, they should be
+described in the introduction section of the R Markdown document and, ideally,
+made readily reproducible using a Makefile.
 
 ## Evaluation rubric
 
@@ -52,3 +60,5 @@ to the source R Markdown and the resulting HTML?
 * Does the introduction explain clearly what is the question addressed, the data employed and the number of observations and variables involved?
 
 * Do the plots show some meaningful summary of the data? Are axes in plots labeled in plain language and large enough to read?
+
+* Does the GitHub repo include a Makefile that automatizes the entire analysis pipeline and generation of the final HTML report?
