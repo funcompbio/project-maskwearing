@@ -1,4 +1,4 @@
-# Project Mask-wearing - FCB 2020
+# Project mask-wearing - FCB 2020
 
 ## Summary
 
@@ -20,9 +20,13 @@ dataset is in a CSV file called `2020_US_County_Level_Presidential_Results.csv`.
 
 ## Deliverables
 
-At least, the GitHub repo for this project should have an R Markdown script (.Rmd)
-and its _knitted_ output in HTML (.html), containing the analysis of the data, which
-should include, at least, one table and one plot.
+The GitHub repo for this project should contain, at least, the following files:
+
+  * `index.Rmd`: R Markdown script with the R code doing the analysis of the data
+    and the corresponding text explaining those analysis steps.
+  * `index.html`: Resulting HTML output from processing (_knitting_) the file
+    `index.Rmd`.
+  * The CSV files employed during the analysis.
 
 The analysis of the data described in the HTML file should contain the following
 sections:
@@ -32,8 +36,8 @@ sections:
     Description of any steps taken, if any, previous to this R Markdown document,
     to prepare the data that is being analyzed.
   * **Results:** R code intertwined with text, descriping the analysis steps and the
-    display items with the results, which should consist at least of one table and
-    one plot.
+    display items with the results, which should consist, **at least**, of one table
+    and one plot.
   * **Conclusions:** summary of the findings, limitations of the study, ways in which
     this type of study could be improved in the future.
   * **References:** bibliographic references.
