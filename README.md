@@ -1,4 +1,4 @@
-# Project mask-wearing - FCB 2020
+# Project mask wearing - FCB 2020
 
 ## Summary
 
