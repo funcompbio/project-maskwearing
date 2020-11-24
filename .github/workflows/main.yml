@@ -1,0 +1,39 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# See https://github.com/r-lib/actions/tree/master/examples#readme for
+# additional example workflows available for the R community.
+
+name: R
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        r-version: [4.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up R ${{ matrix.r-version }}
+        uses: r-lib/actions/setup-r@v1
+        uses: r-lib/actions/setup-pandoc@v1
+        with:
+          r-version: ${{ matrix.r-version }}
+      - name: Check index.Rmd
+        run: if [ -e index.Rmd ] ; then exit 0 ; else { echo missing index.Rmd ; exit 1 ; } ; fi
+      - name: Install rmarkdown
+        run: Rscript -e 'install.packages("rmarkdown")'
+      - name: Render index.html
+        run: if [ -e Makefile ] ; then { echo running Makefile ; make } ; else { Rscript -e 'rmarkdown::render("index.Rmd")' ; } ; fi
+      - name: Check index.html
+        run: if [ -e index.html ] ; then exit 0 ; else { echo missing index.html ; exit 1 ; } ; fi
