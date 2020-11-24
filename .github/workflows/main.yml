@@ -16,24 +16,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: macOS-latest
     timeout-minutes: 10
-    strategy:
-      matrix:
-        r-version: [4.0]
-
     steps:
       - uses: actions/checkout@v2
-      - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: ${{ matrix.r-version }}
+      - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Check index.Rmd
         run: if [ -e index.Rmd ] ; then exit 0 ; else { echo missing index.Rmd ; exit 1 ; } ; fi
       - name: Install rmarkdown
         run: Rscript -e 'install.packages("rmarkdown")'
       - name: Render index.html
-        run: if [ -e Makefile ] ; then { echo running Makefile ; make } ; else { Rscript -e 'rmarkdown::render("index.Rmd")' ; } ; fi
+        run: if [ -e Makefile ] ; then { echo running Makefile ; make ; } else Rscript -e 'rmarkdown::render("index.Rmd")' ; fi
       - name: Check index.html
         run: if [ -e index.html ] ; then exit 0 ; else { echo missing index.html ; exit 1 ; } ; fi
+      - name: Commit results to GitHub repo
+        run: |
+          git config --local user.email "actions@githu.com"
+          git config --local user.name "GitHub Actions"
+          git add . || echo "No changes to stage."
+          git commit -m 'Re-build index.html' || echo "No changes to commit."
+          if [ -e .push ] ; then { git push || echo "No changes to push." ; exit 0 ; } else { echo "No pushing of index.html b/c no .push file in the repo." ; exit 0 ; } ; fi
