@@ -1,6 +1,6 @@
 [![FCB-project-autograding](../../actions/workflows/fcb_autograding.yml/badge.svg)](../../actions?query=workflow%3AFCB-project-autograding)
 
-# Project mask wearing - FCB 2021
+# Project mask wearing - FCB 2022
 
 ## Summary
 
@@ -30,8 +30,9 @@ The GitHub repo for this project should contain, at least, the following files:
   * `index.Rmd`: R Markdown script with the R code doing the analysis of the data
     and the corresponding text explaining those analysis steps.
   * `index.html`: Resulting HTML output from processing (_knitting_) the file
-    `index.Rmd`. This file may also be located in a subdirectory called
-    `docs`, when publishing it with GitHub pages.
+    `index.Rmd`. This file (`index.html`) and other web-related files may also be
+    located in a subdirectory called `docs`, when publishing it with GitHub pages,
+    but this `docs` subdirectory cannot have `.R` or `.Rmd` files.
   * The CSV files employed during the analysis.
   * This `README.md` file.
 
