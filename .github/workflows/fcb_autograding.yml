@@ -20,7 +20,7 @@ jobs:
           r-version: ${{ matrix.r-version }}
       - name: Set up pandoc
         uses: r-lib/actions/setup-pandoc@v2
-      - name: Set up CRANapt for R binary packages
+      - name: Set up Bridge to System Package Manager for R binary packages
         run: sudo Rscript --vanilla -e 'install.packages("bspm", repos="https://cran.r-project.org")' ; sudo add-apt-repository ppa:marutter/rrutter4.0 ; sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
       - name: Install development packages
         run: Rscript --vanilla -e 'options(bspm.sudo=TRUE) ; suppressMessages(bspm::enable()) ; install.packages(c("remotes", "rprojroot", "renv", "desc", "rmarkdown", "knitr"), repos="https://cran.r-project.org")'
