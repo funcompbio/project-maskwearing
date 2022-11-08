@@ -21,7 +21,7 @@ jobs:
       - name: Set up pandoc
         uses: r-lib/actions/setup-pandoc@v2
       - name: Set up CRANapt for R binary packages
-        run: sudo Rscript --vanilla -e 'install.packages("bspm", repos="https://cran.r-project.org")' ; sudo wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc | sudo tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc ; echo "deb [arch=amd64] https://dirk.eddelbuettel.com/cranapt focal main" | sudo tee /etc/apt/sources.list.d/cranapt.list ; sudo apt update ; sudo wget -q -O- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc ; echo "deb [arch=amd64] https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" | sudo tee /etc/apt/sources.list.d/cran-ubuntu.list
+        run: sudo Rscript --vanilla -e 'install.packages("bspm", repos="https://cran.r-project.org")' ; sudo add-apt-repository ppa:marutter/rrutter4.0 ; sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
       - name: Install development packages
         run: Rscript --vanilla -e 'options(bspm.sudo=TRUE) ; suppressMessages(bspm::enable()) ; install.packages(c("remotes", "rprojroot", "renv", "desc", "rmarkdown", "knitr"), repos="https://cran.r-project.org")'
       - name: Install package dependencies
