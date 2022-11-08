@@ -19,8 +19,7 @@ jobs:
       - name: Set up pandoc
         uses: r-lib/actions/setup-pandoc@v2
       - name: Install development packages
-        run: Rscript -e 'install.packages(c("remotes", "rprojroot", "renv", "desc", "rmarkdown", "knitr"))'
-        run: Rscript -e 'remotes::install_github("jalvesaq/colorout")'
+        run: Rscript -e 'install.packages(c("remotes", "rprojroot", "renv", "desc", "rmarkdown", "knitr"))' ; Rscript -e 'remotes::install_github("jalvesaq/colorout")'
       - name: Install package dependencies
         run: Rscript -e 'library(colorout) ; pkg_deps <- renv::dependencies()$Package ; missing_pkgs <- setdiff(pkg_deps, rownames(installed.packages())) ; if (length(missing_pkgs) > 0) { res <- tryCatch({ install.packages(missing_pkgs) ; TRUE }, error=function(cond) { message(cond) ; return(FALSE) }, warning=function(cond) { message(cond) ; return(FALSE) }) ; if (!res) { stop("PROBLEMS INSTALLING PACKAGE DEPENDENCIES. SEE MESSAGES ABOVE.") } }'
       - name: Check for index.Rmd
