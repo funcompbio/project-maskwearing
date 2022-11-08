@@ -20,12 +20,12 @@ jobs:
           r-version: ${{ matrix.r-version }}
       - name: Set up pandoc
         uses: r-lib/actions/setup-pandoc@v2
-      - name: Set up Bridge to System Package Manager for R binary packages
-        run: sudo Rscript --vanilla -e 'install.packages("bspm", repos="https://cran.r-project.org")' ; sudo add-apt-repository ppa:marutter/rrutter4.0 ; sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
+      - name: Set up RStudio Package Manager for R binary packages
+        run: sudo apt-get update ; sudo apt-get -y install apt-file ; sudo Rscript --vanilla -e 'install.packages("rspm", repos="https://cran.r-project.org")'
       - name: Install development packages
-        run: Rscript --vanilla -e 'options(bspm.sudo=TRUE) ; suppressMessages(bspm::enable()) ; install.packages(c("remotes", "rprojroot", "renv", "desc", "rmarkdown", "knitr"), repos="https://cran.r-project.org")'
+        run: Rscript --vanilla -e 'rspm::enable() ; install.packages(c("remotes", "rprojroot", "renv", "desc", "rmarkdown", "knitr"))'
       - name: Install package dependencies
-        run: Rscript --vanilla -e 'options(bspm.sudo=TRUE) ; suppressMessages(bspm::enable()) ; pkg_deps <- renv::dependencies()$Package ; missing_pkgs <- setdiff(pkg_deps, rownames(installed.packages())) ; if (length(missing_pkgs) > 0) { res <- tryCatch({ install.packages(missing_pkgs, repos="https://cran.r-project.org") ; TRUE }, error=function(cond) { message(cond) ; return(FALSE) }, warning=function(cond) { message(cond) ; return(FALSE) }) ; if (!res) { stop("PROBLEMS INSTALLING PACKAGE DEPENDENCIES. SEE MESSAGES ABOVE.") } }'
+        run: Rscript --vanilla -e 'rspm::enable() ; pkg_deps <- renv::dependencies()$Package ; missing_pkgs <- setdiff(pkg_deps, rownames(installed.packages())) ; if (length(missing_pkgs) > 0) { res <- tryCatch({ install.packages(missing_pkgs) ; TRUE }, error=function(cond) { message(cond) ; return(FALSE) }, warning=function(cond) { message(cond) ; return(FALSE) }) ; if (!res) { stop("PROBLEMS INSTALLING PACKAGE DEPENDENCIES. SEE MESSAGES ABOVE.") } }'
       - name: Check for index.Rmd
         run: RED='\033[0;31m'; NC='\033[0m' ; if [ -e index.Rmd ] ; then exit 0 ; else { echo -e "${RED}MISSING FILE index.Rmd${NC}" ; exit 1 ; } ; fi
       - name: Check for index.html
