@@ -32,16 +32,18 @@ The GitHub repo for this project should contain, at least, the following files:
   * `index.html`: Resulting HTML output from processing (_knitting_) the file
     `index.Rmd`. This file (`index.html`) and other web-related files may also be
     located in a subdirectory called `docs`, when publishing it with GitHub pages,
-    but this `docs` subdirectory cannot have `.R` or `.Rmd` files.
+    but this `docs` subdirectory **cannot** have `.R` or `.Rmd` files.
   * The CSV files employed during the analysis.
   * This `README.md` file.
 
+Object names in the R code in `.Rmd` and `.R` files should **not** contain
+non-english characters such as `ç` or `ñ` or accents such as `à`, `é`, etc.
 The analysis of the data described in the HTML file should contain the following
 sections:
 
   * **Front matter:** This is the basic information of the project that should
     appear at the beginning and should consist of the following items: title of
-    the project including at the end or as subtitle "FCB 2021", names of the
+    the project including at the end or as subtitle "FCB 2022", names of the
     authors and date. Here the words _Front Matter_ **should not** be included
     as section name.
   * **Abstract:** Summary of the question and the findings (max. 200 words).
