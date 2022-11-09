@@ -25,7 +25,7 @@ jobs:
       - name: Install development packages
         run: Rscript --vanilla -e 'rspm::enable() ; install.packages(c("remotes", "rprojroot", "renv", "desc", "rmarkdown", "knitr"))'
       - name: Install package dependencies
-        run: Rscript --vanilla -e 'rspm::enable() ; pkg_deps <- renv::dependencies()$Package ; missing_pkgs <- setdiff(pkg_deps, rownames(installed.packages())) ; if (length(missing_pkgs) > 0) { res <- tryCatch({ install.packages(missing_pkgs) ; TRUE }, error=function(cond) { message(cond) ; return(FALSE) }, warning=function(cond) { message(cond) ; return(FALSE) }) ; if (!res) { stop("PROBLEMS INSTALLING PACKAGE DEPENDENCIES. SEE MESSAGES ABOVE.") } }'
+        run: Rscript --vanilla -e 'rspm::enable() ; pkg_deps <- renv::dependencies()$Package ; missing_pkgs <- setdiff(pkg_deps, rownames(installed.packages())) ; if (length(missing_pkgs) > 0) { res <- tryCatch({ install.packages(missing_pkgs) ; TRUE }, error=function(cond) { message(cond) ; return(FALSE) }, warning=function(cond) { message(cond) ; return(FALSE) }) ; if (!res) { stop("\n\n***PROBLEMS INSTALLING PACKAGE DEPENDENCIES*** YOU ARE TRYING\nTO LOAD A PACKAGE THAT DOES NOT EXIST. SEE MESSAGES ABOVE.") } }'
       - name: Check for index.Rmd
         run: RED='\033[0;31m'; NC='\033[0m' ; if [ -e index.Rmd ] ; then exit 0 ; else { echo -e "${RED}MISSING FILE index.Rmd${NC}" ; exit 1 ; } ; fi
       - name: Check for index.html
@@ -36,6 +36,8 @@ jobs:
         run: Rscript -e 'library(knitr) ; fl <- list.files(pattern=".Rmd$") ; n <- 0 ; for (f in fl) { f2 <- purl(f, documentation=0L) ; r <- readLines(f2) ; n <- n + length(r) } ; if (n < 10) { stop("TOO FEW LINES OF R CODE IN RMARKDOWN FILES") }'
       - name: Check for non-English letters and accents in object names
         run: Rscript -e 'library(knitr) ; fl <- list.files(pattern=".Rmd$") ; n <- 0 ; for (f in fl) { f2 <- purl(f, documentation=0L) ; r <- getParseData(parse(f2, keep.source=TRUE)) ; obj <- unique(r$text[which(r$token == "SYMBOL")]) ; mask <- grepl("[^ -~]", obj) ; if (any(mask)) { stop(sprintf("PLEASE DO NOT USE NON-ENGLISH LETTERS AND ACCENTS IN OBJECT NAMES SUCH AS WITH %s IN FILE %s", paste(obj[mask][1:min(c(3, sum(mask)))], collapse=", "), f)) } }'
+      - name: Check for calls to install packages
+        run: RED='\033[0;31m'; NC='\033[0m' ; nlswd=`grep -n install.packages *.Rmd | cut -d ':' -f 1` ; if [ "$nlswd" != "" ] ; then { echo -e "${RED}YOU ARE CALLING install.packages() in an .Rmd FILE, PLEASE DO NOT DO IT${NC}" ; exit 1 ; } ; else { exit 0 ; } ; fi
       - name: Render index.html
         run: if [ -e Makefile ] ; then { echo Makefile found, touching prerequisites ; grep '^[^#[:space:]].*:' Makefile | sed 's/^[^#[:space:]].*:[[:space:]]*//' | sed 's/ /\'$'\n/g' | egrep '\.R|\.Rmd|\.py|\.sh' | xargs touch ; echo Running Makefile ; make ; } ; else { if [ -e _site.yml ] ; then { Rscript -e 'rmarkdown::render_site()' ; } ; else { Rscript -e 'rmarkdown::render("index.Rmd")' ; } ; fi ; } ; fi
       - name: Check for Makefile, .R or .Rmd files in the docs directory
