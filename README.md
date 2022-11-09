@@ -36,7 +36,7 @@ The GitHub repo for this project should contain, at least, the following files:
   * The CSV files employed during the analysis.
   * This `README.md` file.
 
-Object names in the R code in `.Rmd` and `.R` files should **not** contain
+Object names in the R code in `.Rmd` and `.R` files **should not** contain
 non-english characters such as `ç` or `ñ` or accents such as `à`, `é`, etc.
 The analysis of the data described in the HTML file should contain the following
 sections:

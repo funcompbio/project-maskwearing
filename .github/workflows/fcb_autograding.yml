@@ -34,7 +34,7 @@ jobs:
         run: RED='\033[0;31m'; NC='\033[0m' ; nlswd=`grep -n setwd *.Rmd | cut -d ':' -f 1` ; if [ "$nlswd" != "" ] ; then { echo -e "${RED}YOU ARE CALLING setwd() in an .Rmd FILE, PLEASE DO NOT DO IT${NC}" ; exit 1 ; } ; else { exit 0 ; } ; fi
       - name: Check for the absence of R code
         run: Rscript -e 'library(knitr) ; fl <- list.files(pattern=".Rmd$") ; n <- 0 ; for (f in fl) { f2 <- purl(f, documentation=0L) ; r <- readLines(f2) ; n <- n + length(r) } ; if (n < 10) { stop("TOO FEW LINES OF R CODE IN RMARKDOWN FILES") }'
-      - name: Check for non-ascii characters in object names
+      - name: Check for non-English letters and accents in object names
         run: Rscript -e 'library(knitr) ; fl <- list.files(pattern=".Rmd$") ; n <- 0 ; for (f in fl) { f2 <- purl(f, documentation=0L) ; r <- getParseData(parse(f2, keep.source=TRUE)) ; obj <- unique(r$text[which(r$token == "SYMBOL")]) ; mask <- grepl("[^ -~]", obj) ; if (any(mask)) { stop(sprintf("PLEASE DO NOT USE NON-ENGLISH LETTERS AND ACCENTS IN OBJECT NAMES SUCH AS WITH %s IN FILE %s", paste(obj[mask][1:min(c(3, sum(mask)))], collapse=", "), f)) } }'
       - name: Render index.html
         run: if [ -e Makefile ] ; then { echo Makefile found, touching prerequisites ; grep '^[^#[:space:]].*:' Makefile | sed 's/^[^#[:space:]].*:[[:space:]]*//' | sed 's/ /\'$'\n/g' | egrep '\.R|\.Rmd|\.py|\.sh' | xargs touch ; echo Running Makefile ; make ; } ; else { if [ -e _site.yml ] ; then { Rscript -e 'rmarkdown::render_site()' ; } ; else { Rscript -e 'rmarkdown::render("index.Rmd")' ; } ; fi ; } ; fi
