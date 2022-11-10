@@ -12,13 +12,13 @@ In this project you should analyse data to attempt answering the following quest
 
 You should use the following two datasets:
 
-1. A recent survey conducted in the USA by the New York Times on wearing a mask
+1. A survey conducted in 2020 in the USA by the New York Times on wearing a mask
    in public and available
    [here](https://github.com/nytimes/covid-19-data/tree/master/mask-use). The
    dataset is in a CSV file called `mask-use-by-county.csv`.
 
-2. Results of the recent 2020 USA general election presidential results by
-   county and available
+2. Results of the 2020 USA general election presidential results by county and
+   available
    [here](https://github.com/tonmcg/US_County_Level_Election_Results_08-20).
    The dataset is in a CSV file called
    `2020_US_County_Level_Presidential_Results.csv`.
