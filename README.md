@@ -4,7 +4,8 @@
 
 ## Summary
 
-In this project you should analyse data to attempt answering the following question:
+In this project you should analyse data to attempt answering the following
+question:
 
 > Do political views influence wearing a mask in public to minimize transmission of COVID19?
 
